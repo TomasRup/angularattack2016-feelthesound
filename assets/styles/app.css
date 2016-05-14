@@ -24,7 +24,7 @@ body {
 }
 
 .selection-button {
-    width: 100px;
+    width: 150px;
     height: 100px;
     line-height: 100px;
     background-color: #FFFFFF;
@@ -43,9 +43,9 @@ body {
 
 .selection-button:hover {
     /* Shadow */
-    -webkit-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
+    -webkit-box-shadow: 10px 0px 10px 10px rgba(0, 0, 0, .7);
     -moz-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
-    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .7);
 }
 
 .mode-container {

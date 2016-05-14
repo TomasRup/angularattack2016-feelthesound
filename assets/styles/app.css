@@ -9,11 +9,11 @@
 }
 
 * a:hover {
-    color: #3F5765;
     text-decoration: none;
 }
 
 body {
+    /* BG is taken from: https://www.pexels.com/photo/sunset-person-love-people-69096/ */
     background: url(../images/background.jpg) no-repeat center center fixed;    
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -27,6 +27,13 @@ body {
     transform: translate(-50%, -50%);
     color: #FFFFFF;
     text-align: center;
+}
+
+h1 {
+    color: #FFFFFF;
+    -webkit-text-shadow: 3px 3px rgba(0, 0, 0, .9);
+    -moz-text-shadow: 3px 3px rgba(0, 0, 0, .9);
+    text-shadow: 3px 3px rgba(0, 0, 0, .9);
 }
 
 .explanatory-text {

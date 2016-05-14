@@ -149,16 +149,36 @@ h1 {
     height: 35px;   
 }
 
+.mode-container .content input {
+    min-width: 120px;
+    height: 35px;   
+    outline: none;
+}
+
+.disabled {
+    color: #2980B9;
+}
+
 .subscribed {
     background-color: #FFF;
-    border: 1px solid #CC3910;
-    color: #CC3910;
+    border: 1px solid #E74C3C;
+    color: #E74C3C;
     outline: none;
+    text-decoration: underline;
 }
 
 .unsubscribed {
     background-color: #FFF;
-    border: 1px solid #8FA68E;
-    color: #8FA68E;
+    border: 1px solid #2980B9;
+    color: #2980B9;
     outline: none;
+    text-decoration: underline;
+}
+
+.subscribed:hover {
+    text-decoration: none;
+}
+
+.unsubscribed:hover {
+    text-decoration: none;
 }

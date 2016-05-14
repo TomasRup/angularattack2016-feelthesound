@@ -10,8 +10,7 @@ import { VoiceService } from '../services/voice/voice.service';
     <div class="mode-container">
         <div class="header">Single device mode</div>
         <div class="content">
-            <button (click) ="listen()" *ngIf="!voiceService.isListening()">Feel the sound</button>
-            <button (click) ="shutdown()" *ngIf="voiceService.isListening()">Stop</button>
+            <button [ngClass]="{unsubscribed: feelingToggledOn, subscribed: !feelingToggledOn}" (click)="toggleFeeling()">{{feelingButtonText}}</button>
             <div>
                 <canvas id="canvas"></canvas>
             </div>
@@ -21,13 +20,26 @@ import { VoiceService } from '../services/voice/voice.service';
     `
 })
 export class SingleDevice {
+    canvas;
+    private feelingToggledOn: boolean = false;
+    private feelingButtonText: string = 'Start feeling';
     
-    canvas;    
     constructor(private voiceService: VoiceService) {
-        
     }
     
-    listen() {
+    toggleFeeling() {
+        if (this.feelingToggledOn) {
+            this.feelingButtonText = 'Start feeling';
+            this.shutdown();
+        } else {
+            this.feelingButtonText = 'Stop feeling';
+            this.listen();
+        }
+        
+        this.feelingToggledOn = !this.feelingToggledOn;
+    }
+    
+    private listen() {
         var self = this;
         if (!this.voiceService.isListening()) {
             this.canvas = document.getElementById("canvas");
@@ -41,7 +53,7 @@ export class SingleDevice {
         }
     }
 
-    shutdown() {
+    private shutdown() {
         if (this.voiceService.isListening()) {
             this.voiceService.shutdown();
         }

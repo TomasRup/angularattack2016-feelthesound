@@ -10,8 +10,8 @@ import { VoiceService } from '../services/voice/voice.service';
     <div class="mode-container">
         <div class="header">Single device mode</div>
         <div class="content">
-            <button (click) ="listen()" >listen</button>
-            <button (click) ="shutdown()" >stop listening</button>
+            <button (click) ="listen()" *ngIf="!voiceService.isListening()">Feel the sound</button>
+            <button (click) ="shutdown()" *ngIf="voiceService.isListening()">Stop</button>
             <div>
                 <canvas id="canvas"></canvas>
             </div>
@@ -32,7 +32,11 @@ export class SingleDevice {
         if (!this.voiceService.isListening()) {
             this.canvas = document.getElementById("canvas");
             this.voiceService.listen((data) => {
-                self.visualiseVoice(data, 400, 200, false);        
+                let crying = this.isCrying(data);
+                self.visualiseVoice(data, 400, 200, crying);
+                if (crying) {
+                    self.vibratePhone([100]);
+                }        
             }, this.handleListenError, 200);
         }
     }
@@ -68,7 +72,39 @@ export class SingleDevice {
       }
       canvasCtx.lineTo(this.canvas.width, this.canvas.height/2);
       canvasCtx.stroke();
-      
+    }
+    
+    private isCrying(buffer) { //TODO: implement more sophisticated cry detection
+        
+        var sum = 0;
+        var max = -128;
+        var min = 128;
+        for(var i in buffer) {
+            sum += buffer[i];
+            if (buffer[i] > max) {
+                max = buffer[i];
+            }
+            if (buffer[i] < min) {
+                min = buffer[i];
+            }
+        }
+        var mean = sum / buffer.length;
+        
+        sum = 0;
+        for(var i in buffer) {
+            sum += (buffer[i] - mean) * (buffer[i] - mean);
+        }
+
+        var amplitude = (max - min);
+        var deviation = Math.sqrt(sum / buffer.length);
+        var ratio = deviation / (amplitude + 1);
+        var crying = ratio > 0.1 && amplitude > 50;
+
+        return crying;
+    }
+    
+    private vibratePhone(pattern) {
+        window.navigator.vibrate(pattern);
     }
     
     private handleListenError(error) {

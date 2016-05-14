@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
+import { GlobalsService } from '../common/globals.service';
 
 @Injectable()
 export class VoiceService {
@@ -10,8 +11,8 @@ export class VoiceService {
     mediaStreamSource;
     stream;
     
-    constructor() {
-        this.audioContext = new AudioContext();
+    constructor(globalsService: GlobalsService) {
+        this.audioContext = globalsService.getAudioContext();
     }
     
     isListening() {

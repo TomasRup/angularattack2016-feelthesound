@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { VoiceService } from '../services/voice/voice.service';
+import { VoiceRecognitionService } from '../services/voice/voicerecognition.service';
+import { MobileService } from '../services/mobile/mobile.service';
 
 
 @Component({
-  providers: [VoiceService],
+  providers: [VoiceService, VoiceRecognitionService, MobileService],
   directives: [ROUTER_DIRECTIVES],
   template: `
     <div class="mode-container">
@@ -20,11 +22,14 @@ import { VoiceService } from '../services/voice/voice.service';
     `
 })
 export class SingleDevice {
+    
     canvas;
     private feelingToggledOn: boolean = false;
-    private feelingButtonText: string = 'Start feeling';
-    
-    constructor(private voiceService: VoiceService) {
+    private feelingButtonText: string = 'Start feeling';    
+    constructor(
+        private voiceService: VoiceService, 
+        private voiceRecognitionService: VoiceRecognitionService,
+        private mobileService: MobileService) {        
     }
     
     toggleFeeling() {
@@ -35,25 +40,24 @@ export class SingleDevice {
             this.feelingButtonText = 'Stop feeling';
             this.listen();
         }
-        
         this.feelingToggledOn = !this.feelingToggledOn;
-    }
+   }
     
     private listen() {
         var self = this;
         if (!this.voiceService.isListening()) {
             this.canvas = document.getElementById("canvas");
             this.voiceService.listen((data) => {
-                let crying = this.isCrying(data);
+                let crying = this.voiceRecognitionService.isBabyCrying(data);
                 self.visualiseVoice(data, 400, 200, crying);
                 if (crying) {
-                    self.vibratePhone([100]);
+                    this.mobileService.vibratePhone([100]);
                 }        
             }, this.handleListenError, 200);
         }
     }
 
-    private shutdown() {
+   private shutdown() {
         if (this.voiceService.isListening()) {
             this.voiceService.shutdown();
         }
@@ -86,41 +90,8 @@ export class SingleDevice {
       canvasCtx.stroke();
     }
     
-    private isCrying(buffer) { //TODO: implement more sophisticated cry detection
-        
-        var sum = 0;
-        var max = -128;
-        var min = 128;
-        for(var i in buffer) {
-            sum += buffer[i];
-            if (buffer[i] > max) {
-                max = buffer[i];
-            }
-            if (buffer[i] < min) {
-                min = buffer[i];
-            }
-        }
-        var mean = sum / buffer.length;
-        
-        sum = 0;
-        for(var i in buffer) {
-            sum += (buffer[i] - mean) * (buffer[i] - mean);
-        }
-
-        var amplitude = (max - min);
-        var deviation = Math.sqrt(sum / buffer.length);
-        var ratio = deviation / (amplitude + 1);
-        var crying = ratio > 0.1 && amplitude > 50;
-
-        return crying;
-    }
-    
-    private vibratePhone(pattern) {
-        window.navigator.vibrate(pattern);
-    }
-    
     private handleListenError(error) {
-        console.error('Failed to start listener');
-        console.error(error);
+        console.log('Failed to start listener');
+        console.log(error);
     }
 }

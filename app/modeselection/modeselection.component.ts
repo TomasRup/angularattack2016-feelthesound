@@ -5,6 +5,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 @Component({
   directives: [ROUTER_DIRECTIVES],
   template: `
+    <h1>Feel the Sound.</h1>
     <nav>
       <a [routerLink]="['/child']" class="selection-button">Child Device</a>
       <a [routerLink]="['/parent']" class="selection-button">Parent Device</a>

@@ -43,6 +43,8 @@ h1 {
     display: table-cell;
     max-width: 700px;
     margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     text-align: center;
     color: #EFEFEF;
     word-wrap: normal;
@@ -105,7 +107,7 @@ h1 {
 @media screen and (max-width: 480px) {
     .mode-container {
         display: table-cell;
-        width: 320px;
+        width: 100%;
         min-height: 150px;
         background-color: #FFFFFF;
         padding: 10px;
@@ -146,12 +148,12 @@ h1 {
 
 .mode-container .content button {
     width: 120px;
-    height: 35px;   
+    height: 40px;   
 }
 
 .mode-container .content input {
     min-width: 120px;
-    height: 35px;   
+    height: 40px;   
     outline: none;
 }
 

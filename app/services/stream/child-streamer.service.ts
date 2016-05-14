@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GlobalsService } from '../common/globals.service';
 
 @Injectable()
 export class ChildStreamService {
@@ -10,15 +11,11 @@ export class ChildStreamService {
     private ended: Boolean = false;
     private isStarted: Boolean = false;
     private id: String
-    private audioContext: any;
-    private navigator: any;
     private recorder: any;
 
-    constructor() {
+    constructor(private globalsService: GlobalsService) {
         var n = <any> navigator;
         n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
-        this.audioContext = new AudioContext();
-        this.navigator = n;
     }
 
     getIsStarted() {
@@ -34,7 +31,7 @@ export class ChildStreamService {
          this.webSocket.onerror = this.onWebsocketError;
          this.webSocket.onopen = () => {
             callback();
-            this.navigator.getUserMedia({audio: true}, this.initRecorder(), this.errorCallback);
+            this.globalsService.getNavigator().getUserMedia({audio: true}, this.initRecorder(), this.errorCallback);
          }
       }
     }
@@ -56,11 +53,11 @@ export class ChildStreamService {
                 instance.isStarted = false;
             });
 
-            var audioInput = instance.audioContext.createMediaStreamSource(stream);
-            instance.recorder = instance.audioContext.createScriptProcessor(ChildStreamService.BUFFER_SIZE, 1, 1);
+            var audioInput = instance.globalsService.getAudioContext().createMediaStreamSource(stream);
+            instance.recorder = instance.globalsService.getAudioContext().createScriptProcessor(ChildStreamService.BUFFER_SIZE, 1, 1);
             audioInput.connect(instance.recorder);
             instance.recorder.onaudioprocess = instance.recorderProcess();
-            instance.recorder.connect(instance.audioContext.destination);
+            instance.recorder.connect(instance.globalsService.getAudioContext().destination);
         }
     }
 

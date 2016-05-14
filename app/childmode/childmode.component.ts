@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { StreamService } from '../services/stream/stream.service';
+import { ChildStreamService } from '../services/stream/child-streamer.service';
 
 
 @Component({
-  providers: [StreamService],
+  providers: [ChildStreamService],
   directives: [ROUTER_DIRECTIVES],
   template: `
     <div class="mode-container">
         <div class="header">Child mode</div>
         <div class="content">
-            <button [ngClass]="{unsubscribed: streamingToggledOn, subscribed: !streamingToggledOn}" (click)="toggleStreaming()">{{streamingButtonText}}</button>
+            <button [ngClass]="{unsubscribed: service.getIsStarted(), subscribed: !service.getIsStarted()}"
+                    (click)="toggleStreaming()">{{streamingButtonText}}</button>
+            <button>Disconnect all connected parents</button>
         </div>
         <div class="footer"><a [routerLink]="['/modeselection']">Back</a></div>
     </div>
@@ -18,19 +20,30 @@ import { StreamService } from '../services/stream/stream.service';
 })
 export class ChildMode {
     private streamingToggledOn: boolean = false;
-    private streamingButtonText: string = 'Start streaming';
-    
-    constructor(private streamService: StreamService) {}
-    
+    private streamingButtonText: string = 'Start capturing sounds';
+    private toggleInProgress: boolean = false;
+
+    constructor(private service: ChildStreamService) {
+        //TODO Auto toggle based on url
+    }
+
     toggleStreaming() {
-        if (!this.streamingToggledOn) { 
-            this.streamService.start();
-            this.streamingButtonText = 'Mute the stream';
-        } else { 
-            this.streamService.stop();
-            this.streamingButtonText = 'Start streaming again';
+        this.startToggle();
+        if (this.service.getIsStarted()) {
+            this.service.stop();
+            this.finishedToggle('Start capturing sounds')
+        } else {
+            this.service.start("testStream", () => this.finishedToggle('Stop capturing sounds'));
         }
-        
-        this.streamingToggledOn = !this.streamingToggledOn;
+    }
+
+    private startToggle() {
+        this.toggleInProgress = true;
+        this.streamingButtonText = 'Loading....'
+    }
+
+    private finishedToggle(buttonText: string) {
+        this.toggleInProgress = false;
+        this.streamingButtonText = buttonText;
     }
 }

@@ -21,6 +21,16 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.explanatory-text {
+    margin-top: 20px;
+    text-align: center;
+    color: #EFEFEF;
+    word-wrap: normal;
+    font-size: 0.7em;
 }
 
 .selection-button {
@@ -39,13 +49,18 @@ body {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+    
+    /* Shadow */
+    -webkit-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .3);
+    -moz-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .3);
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .3);
 }
 
 .selection-button:hover {
     /* Shadow */
-    -webkit-box-shadow: 10px 0px 10px 10px rgba(0, 0, 0, .7);
-    -moz-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
-    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .7);
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(43, 58, 66, .5);
+    -moz-box-shadow: 0px 0px 0px 0px rgba(43, 58, 66, .5);
+    box-shadow: 0px 0px 0px 0px rgba(43, 58, 66, .5);
 }
 
 .mode-container {
@@ -58,6 +73,11 @@ body {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+    
+    /* Shadow */
+    -webkit-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .3);
+    -moz-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .3);
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .3);
 }
 
 .mode-container .header {

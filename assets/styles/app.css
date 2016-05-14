@@ -149,14 +149,14 @@ h1 {
     height: 35px;   
 }
 
-.streaming {
+.subscribed {
     background-color: #FFF;
     border: 1px solid #CC3910;
     color: #CC3910;
     outline: none;
 }
 
-.mute {
+.unsubscribed {
     background-color: #FFF;
     border: 1px solid #8FA68E;
     color: #8FA68E;

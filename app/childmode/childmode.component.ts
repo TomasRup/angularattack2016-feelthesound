@@ -10,7 +10,7 @@ import { StreamService } from '../services/stream/stream.service';
     <div class="mode-container">
         <div class="header">Child mode</div>
         <div class="content">
-            <button [ngClass]="{streaming: streamingToggledOn, mute: !streamingToggledOn}" (click)="toggleStreaming()">{{streamingButtonText}}</button>
+            <button [ngClass]="{unsubscribed: streamingToggledOn, subscribed: !streamingToggledOn}" (click)="toggleStreaming()">{{streamingButtonText}}</button>
         </div>
         <div class="footer"><a [routerLink]="['/modeselection']">Back</a></div>
     </div>

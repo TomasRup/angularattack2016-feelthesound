@@ -26,8 +26,7 @@ export class ChildStreamService {
        if (!this.isStarted) {
          this.isStarted = true;
 
-         this.webSocket = new WebSocket(`wss://stark-river-37161.herokuapp.com/streams/${id}`);
-         //this.webSocket = new WebSocket(`ws://localhost:8080/streams/${id}`);
+         this.webSocket = new WebSocket(`${GlobalsService.WS_URL}/streams/${id}`);
          this.webSocket.onerror = this.onWebsocketError;
          this.webSocket.onopen = () => {
             callback();

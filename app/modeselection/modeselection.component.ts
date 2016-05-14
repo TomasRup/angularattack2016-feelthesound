@@ -6,8 +6,8 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   directives: [ROUTER_DIRECTIVES],
   template: `
     <nav>
-      <a [routerLink]="['/child']">Child</a>
-      <a [routerLink]="['/parent']">Parent</a>
+      <a [routerLink]="['/child']" class="selection-button">Child</a>
+      <a [routerLink]="['/parent']" class="selection-button">Parent</a>
     </nav>
     `
 })

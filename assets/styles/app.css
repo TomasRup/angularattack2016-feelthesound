@@ -1,3 +1,25 @@
-* {
+body {
     font-family: verdana;
+    
+    background: url(../images/background.jpg) no-repeat center center fixed;    
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.selection-button {
+    width: 100px;
+    height: 100px;
+    background-color: #FFFFFF;
+    display: inline-block;
+    border-radius: 12px;
+    padding: 12px;
 }

@@ -18,15 +18,18 @@ body {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: table;
 }
 
 .container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #FFFFFF;
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
+    color: #FFFFFF;
+    width: 100%;
 }
 
 h1 {
@@ -37,11 +40,16 @@ h1 {
 }
 
 .explanatory-text {
+    display: table-cell;
+    max-width: 700px;
     margin-top: 20px;
     text-align: center;
     color: #EFEFEF;
     word-wrap: normal;
-    font-size: 0.7em;
+    font-size: 1em;
+    -webkit-text-shadow: 2px 2px rgba(0, 0, 0, .9);
+    -moz-text-shadow: 2px 2px rgba(0, 0, 0, .9);
+    text-shadow: 2px 2px rgba(0, 0, 0, .9);
 }
 
 .selection-button {
@@ -76,6 +84,7 @@ h1 {
 
 @media screen and (min-width: 481px) {
     .mode-container {
+        display: table-cell;
         width: 500px;
         min-height: 150px;
         background-color: #FFFFFF;
@@ -95,6 +104,7 @@ h1 {
 
 @media screen and (max-width: 480px) {
     .mode-container {
+        display: table-cell;
         width: 320px;
         min-height: 150px;
         background-color: #FFFFFF;

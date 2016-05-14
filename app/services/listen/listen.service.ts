@@ -8,14 +8,19 @@ export class ListenService {
     constructor(private globalsService: GlobalsService) {
     }
     
+    stop() {
+        this.webSocket.close();
+    }
+    
     start(subscriptionId: string) {
         this.webSocket = new WebSocket('wss://stark-river-37161.herokuapp.com/listeners/' + subscriptionId);
         this.webSocket.binaryType = "arraybuffer";
         this.globalsService.getAudioContext();
     
+        var that = this;
         this.webSocket.onmessage = function(event) {
             console.log(event);
-            this.playSound(event.data);
+            that.playSound(event.data);
         }
     }
     

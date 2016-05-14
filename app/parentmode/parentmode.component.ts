@@ -30,6 +30,7 @@ export class ParentMode implements OnInit {
         if (this.subscribingToggledOn) {
             this.subscribingButtonText = 'Start listening';
             this.entryDisabled = false;
+            this.listenService.stop();
         } else {
             this.subscribingButtonText = 'Stop listening';
             this.entryDisabled = true;

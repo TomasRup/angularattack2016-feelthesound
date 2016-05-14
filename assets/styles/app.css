@@ -1,11 +1,9 @@
 body {
-    font-family: verdana;
-    
     background: url(../images/background.jpg) no-repeat center center fixed;    
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .container {
@@ -18,8 +16,38 @@ body {
 .selection-button {
     width: 100px;
     height: 100px;
+    line-height: 100px;
     background-color: #FFFFFF;
-    display: inline-block;
+    display: inline-block;    
+    margin: 20px;
+    
+    /* Text */
+    text-decoration: none;
+    color: #000000;
+    text-align: center;
+
+    /* Shape */
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
     border-radius: 12px;
-    padding: 12px;
+}
+
+.selection-button:hover {
+    color: #3F5765;
+
+    /* Shadow */
+    -webkit-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
+    -moz-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .7);
+}
+
+.mode-container {
+    width: 500px;
+    min-height: 500px;
+    background-color: #FFFFFF;
+    
+    /* Shape */
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
 }

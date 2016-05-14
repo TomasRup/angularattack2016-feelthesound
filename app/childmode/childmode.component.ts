@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
   template: `
-    <h1>Child mode!</h1>
+    <div class="mode-container">
+        Child
+    </div>
     `
 })
 export class ChildMode {

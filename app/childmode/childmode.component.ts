@@ -10,16 +10,24 @@ import { StreamService } from '../services/stream/stream.service';
     <div class="mode-container">
         <div class="header">Child mode</div>
         <div class="content">
-            <button (click)="startStreaming()">Start streaming</button>
+            <button [ngClass]="{streaming: streamingToggledOn, mute: !streamingToggledOn}" (click)="toggleStreaming()">Start streaming</button>
         </div>
         <div class="footer"><a [routerLink]="['/modeselection']">Back</a></div>
     </div>
     `
 })
 export class ChildMode {
+    private streamingToggledOn: boolean = false;
+    
     constructor(private streamService: StreamService) {}
     
-    startStreaming() {
-        this.streamService.start();
+    toggleStreaming() {
+        if (!this.streamingToggledOn) { 
+            this.streamService.start(); 
+        } else { 
+            this.streamService.stop(); 
+        }
+        
+        this.streamingToggledOn = !this.streamingToggledOn;
     }
 }

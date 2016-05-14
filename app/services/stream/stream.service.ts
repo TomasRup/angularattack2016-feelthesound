@@ -15,6 +15,7 @@ export class StreamService {
     }
     
     stop() {
+        if (!this.currentStream) return;
         this.currentStream.getTracks()[0].stop();
     }
     

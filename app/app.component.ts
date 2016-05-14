@@ -1,7 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Routes, Router, ROUTER_DIRECTIVES } from '@angular/router';
+
+import { ModeSelection } from './modeselection/modeselection.component'
 
 @Component({
-  selector: 'my-app',
-  template: '<h1>My First Angular 2 App</h1>'
+  selector: 'app',
+  template: '<router-outlet></router-outlet>',
+  directives: [ROUTER_DIRECTIVES]
 })
-export class AppComponent {}
+@Routes([
+  {path: '/modeselection', component: ModeSelection}
+])
+export class AppComponent implements OnInit {
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.router.navigate(['/modeselection']);
+  }
+}

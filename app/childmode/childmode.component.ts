@@ -10,7 +10,7 @@ import { ChildStreamService } from '../services/stream/child-streamer.service';
     <div class="mode-container">
         <div class="header">Child mode</div>
         <div class="content">
-            <input [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(value)]="subscriptionId">
+            <input [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
             <button [ngClass]="{unsubscribed: service.getIsStarted(), subscribed: !service.getIsStarted()}"
                     (click)="toggleStreaming()">{{streamingButtonText}}</button>
         </div>

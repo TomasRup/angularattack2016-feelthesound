@@ -23,7 +23,7 @@ import { MobileService } from '../services/mobile/mobile.service';
                     Child mode
                 </div>
                 <div class="uk-form-row uk-text-small">
-                    Some explanation here
+                    Monitor the sound near you and feel if your baby is crying through phone vibrations.
                 </div>
                 <div class="uk-form-row">
                     <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()">
@@ -58,7 +58,7 @@ export class SingleDevice {
     private sensitivity = 0.75;
     private sensitivityOptions = [0.00, 0.10, 0.25, 0.50, 0.75, 0.85, 0.95, 0.98, 1.0];
     private toggleInProgress: boolean = false;
-    private feelingButtonText: string = 'Start feeling';    
+    private feelingButtonText: string = 'Start listening';    
     
     constructor(
         private voiceService: VoiceService, 
@@ -70,10 +70,10 @@ export class SingleDevice {
         this.toggleInProgress = true;
         
         if (this.voiceService.isListening()) {
-            this.feelingButtonText = 'Start feeling';
+            this.feelingButtonText = 'Start listening';
             this.shutdown();
         } else {
-            this.feelingButtonText = 'Stop feeling';
+            this.feelingButtonText = 'Stop listening';
             this.listen();
         }
    }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class VoiceRecognitionService {
     
-    isBabyCrying(buffer) { //TODO: implement more sophisticated cry detection
+    isBabyCrying(buffer) { // TODO: implement more sophisticated cry detection
         var chunksCount = 4;
         var length = buffer.length / chunksCount;        
         var cryingSum = 0;        

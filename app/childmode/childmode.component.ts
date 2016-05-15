@@ -21,7 +21,6 @@ import { ChildStreamService } from '../services/stream/child-streamer.service';
 export class ChildMode {
     private subscriptionId: string = '';
     private entryDisabled: boolean = false;
-    private streamingToggledOn: boolean = false;
     private streamingButtonText: string = 'Start capturing sounds';
     private toggleInProgress: boolean = false;
 
@@ -30,22 +29,23 @@ export class ChildMode {
     }
 
     toggleStreaming() {
-        this.startToggle();
+        this.toggleInProgress = true;
+        this.streamingButtonText = 'Loading';
+        this.entryDisabled = true;
+
         if (this.service.getIsStarted()) {
             this.service.stop();
-            this.finishedToggle('Start capturing sounds')
+            this.toggleInProgress = false;
+            this.streamingButtonText = 'Start capturing sounds';
+            this.entryDisabled = false;
+            
         } else {
-            this.service.start(this.subscriptionId, () => this.finishedToggle('Stop capturing sounds'));
+            var self = this;
+            this.service.start(this.subscriptionId, () => {
+                self.toggleInProgress = false;
+                self.streamingButtonText = 'Stop capturing sounds'
+                self.entryDisabled = true;
+            });
         }
-    }
-
-    private startToggle() {
-        this.toggleInProgress = true;
-        this.streamingButtonText = 'Loading....'
-    }
-
-    private finishedToggle(buttonText: string) {
-        this.toggleInProgress = false;
-        this.streamingButtonText = buttonText;
     }
 }

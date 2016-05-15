@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class VoiceRecognitionService {
-    
-    isBabyCrying(buffer) { // TODO: implement more sophisticated cry detection              
+      
+    isBabyCrying(buffer, sensitivity = 0.75) { // TODO: implement more sophisticated cry detection
         var sliceSize = 10;
         var chunksCount = Math.floor(buffer.length / sliceSize);
         var length = Math.floor(buffer.length / chunksCount);       
@@ -31,14 +31,10 @@ export class VoiceRecognitionService {
 
             var amplitude = (max - min);
             var deviation = Math.sqrt(sum / length);
-            var crying = deviation > 0.1 && amplitude > 0.2;
-            
-//            console.log("deviation:" + deviation + " amplitude:" + amplitude + " min:" + min + " max:" + max);
-            
-            cryingSum += crying ? 1 : -1;
-            
+            var crying = deviation > (1 - sensitivity) / 100.0 && amplitude > (1 - sensitivity) / 10;
+
+            cryingSum += crying ? 1 : -1;            
         }
-        console.log(cryingSum);
         return cryingSum > 0;
     }
 }

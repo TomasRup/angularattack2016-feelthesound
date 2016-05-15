@@ -8,12 +8,24 @@ import { MobileService } from '../services/mobile/mobile.service';
 @Component({
   providers: [VoiceService, VoiceRecognitionService, MobileService],
   directives: [ROUTER_DIRECTIVES],
+  styles: [`
+    #canvas {
+        width: 400px;
+        height: 200px;
+        background-color: #e0e0e0;
+    }
+  `],
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
             <div class="uk-text-large">Single device mode</div><br>
             <div class="uk-text-small">Some explanation here</div><br>
-            <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button><br>
+            <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button>
+            <select [(ngModel)]="sensitivity">
+                <option *ngFor="let o of sensitivityOptions" [value]="o">{{o*100}} %</option>
+            </select>
+            <label for="sensitivity">Sensitivity</label>
+            <br>
             <div>
                 <canvas id="canvas"></canvas>
             </div>
@@ -26,7 +38,9 @@ import { MobileService } from '../services/mobile/mobile.service';
 })
 export class SingleDevice {
     
-    canvas;
+    private canvas;
+    private sensitivity = 0.75;
+    private sensitivityOptions = [0.00, 0.10, 0.25, 0.50, 0.75, 0.85, 0.95, 0.98, 1.0];
     private toggleInProgress: boolean = false;
     private feelingButtonText: string = 'Start feeling';    
     
@@ -54,9 +68,8 @@ export class SingleDevice {
             this.canvas = document.getElementById("canvas");
             self.toggleInProgress = false; // TODO: this should be called after callback
             this.voiceService.listen((data) => {
-                let crying = this.voiceRecognitionService.isBabyCrying(data);
-                self.visualiseVoice(data, 400, 200, crying);
-                
+                var crying = this.voiceRecognitionService.isBabyCrying(data, this.sensitivity);
+                self.visualiseVoice(data, 400, 200, crying);                
                 if (crying) {
                     this.mobileService.vibratePhone([100]);
                 }
@@ -74,7 +87,7 @@ export class SingleDevice {
     
     private visualiseVoice(data, width, height, crying) {           
       let canvasCtx = this.canvas.getContext("2d");
-      canvasCtx.fillStyle = 'rgb(220, 220, 220)';
+      canvasCtx.fillStyle = crying ? 'rgb(255, 220, 220)' : 'rgb(220, 220, 220)';
       canvasCtx.fillRect(0, 0, width, height);
 
       canvasCtx.lineWidth = 1;

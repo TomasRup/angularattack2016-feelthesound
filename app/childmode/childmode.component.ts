@@ -14,18 +14,21 @@ import { ChildStreamService, StreamerState } from '../services/stream/child-stre
                     Enter some subscription id and start capturing sounds near your child. Use the same ID in another device where you will listen.
                 </div>
                 <div class="uk-form-row">
-                    <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
+                    <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}"
+                           type="text" placeholder="Enter Subscription ID" 
+                           [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
                 </div>
                 <div class="uk-form-row">
-                    <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()">
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()"
+                            [disabled]="!subscriptionId">
                         <i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i>
-                        <i *ngIf="!toggleInProgress && service.getIsStarted()" class="uk-icon-stop-circle-o"></i> 
-                        <i *ngIf="!toggleInProgress && !service.getIsStarted()" class="uk-icon-play-circle-o"></i> 
+                        <i *ngIf="!toggleInProgress && service.getIsStarted()" class="uk-icon-stop-circle-o"></i>
+                        <i *ngIf="!toggleInProgress && !service.getIsStarted()" class="uk-icon-play-circle-o"></i>
                         &nbsp;{{streamingButtonText}}
                     </button>
                 </div>
                 <div class="uk-form-row">
-                
+
                 </div>
             </form>
             <div *ngIf="service.getIsStarted() && service.streamerState">

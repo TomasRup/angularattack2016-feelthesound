@@ -16,13 +16,15 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
                     Listen to your child by entering the same subscription ID as you typed in child's device.
                 </div>
                 <div class="uk-form-row">
-                    <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
+                    <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID"
+                           [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
                 </div>
                 <div class="uk-form-row">
-                    <button class="uk-button" [ngClass]="{'uk-button-danger': listenService.getIsStarted()}" (click)="toggleSubscribing()">
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': listenService.getIsStarted()}"
+                            (click)="toggleSubscribing()" [disabled]="!subscriptionId">
                         <i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i>
-                        <i *ngIf="!toggleInProgress && listenService.getIsStarted()" class="uk-icon-stop-circle-o"></i> 
-                        <i *ngIf="!toggleInProgress && !listenService.getIsStarted()" class="uk-icon-play-circle-o"></i> 
+                        <i *ngIf="!toggleInProgress && listenService.getIsStarted()" class="uk-icon-stop-circle-o"></i>
+                        <i *ngIf="!toggleInProgress && !listenService.getIsStarted()" class="uk-icon-play-circle-o"></i>
                         &nbsp;{{subscribingButtonText}}
                     </button>
                 </div>
@@ -63,7 +65,7 @@ export class ParentMode {
         private mobileService: MobileService,
         private voiceRecognitionService: VoiceRecognitionService) {
 
-        this.subscriptionId = listenService.subscriptionId;    
+        this.subscriptionId = listenService.subscriptionId;
         this.setViewState();
         }
 
@@ -81,7 +83,7 @@ export class ParentMode {
                 self.toggleInProgress = false;
                 self.setViewState();
             }, data => {
-                
+
                 if (!self.mute) {
                     self.mobileService.playSound(data);
                 }

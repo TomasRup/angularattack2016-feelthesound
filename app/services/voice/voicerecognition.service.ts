@@ -3,9 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class VoiceRecognitionService {
       
-    isBabyCrying(buffer, sensitivity = 0.75) { // TODO: implement more sophisticated cry detection
-        var sliceSize = 10;
-        var chunksCount = Math.floor(buffer.length / sliceSize);
+    isBabyCrying(buffer, sensitivity = 0.75) { // TODO: implement more sophisticated and accurate cry detection
+        if (sensitivity == 0) {
+            return false;
+        }
+        var chunkSize = 10;
+        var chunksCount = Math.floor(buffer.length / chunkSize);
         var length = Math.floor(buffer.length / chunksCount);       
         var cryingSum = 0;
         for(var chunk = 0; chunk < chunksCount; chunk++) {

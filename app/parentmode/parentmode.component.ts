@@ -29,6 +29,12 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
                     </button>
                 </div>
                 <div class="uk-form-row">
+                    <select [(ngModel)]="sensitivity">
+                        <option *ngFor="let o of sensitivityOptions" [value]="o">{{o*100}} %</option>
+                    </select>
+                    <label for="sensitivity">Detection sensitivity</label>
+                </div>
+                <div class="uk-form-row">
                     <label>
                         <input type="checkbox" [(ngModel)]="mute">
                         Disable sound output, only vibrate you phone if baby cry is detected.
@@ -51,6 +57,8 @@ export class ParentMode {
     private subscribingButtonText: string = 'Start listening';
     private toggleInProgress: boolean = false;
     private mute: boolean = false;
+    private sensitivity = 0.75;
+    private sensitivityOptions = [0.00, 0.10, 0.25, 0.50, 0.75, 0.85, 0.95, 0.98, 1.0];
 
     constructor(
         private listenService: ListenService,
@@ -80,7 +88,7 @@ export class ParentMode {
                     self.mobileService.playSound(data);
                 }
 
-                if (self.voiceRecognitionService.isBabyCrying(data)) {
+                if (self.voiceRecognitionService.isBabyCrying(data, self.sensitivity)) {
                     self.mobileService.vibratePhone([100]);
                 }
             });

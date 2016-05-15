@@ -35,7 +35,7 @@ import { MobileService } from '../services/mobile/mobile.service';
                     <select [(ngModel)]="sensitivity">
                         <option *ngFor="let o of sensitivityOptions" [value]="o">{{o*100}} %</option>
                     </select>
-                    <label for="sensitivity">Sensitivity</label>
+                    <label for="sensitivity">Detection sensitivity</label>
                 </div>
                 <div class="uk-form-row">
                     <div>

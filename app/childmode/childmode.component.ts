@@ -11,7 +11,7 @@ import { ChildStreamService, StreamerState } from '../services/stream/child-stre
             <form class="uk-form">
                 <div class="uk-form-row uk-text-bold">
                     <h3 class="uk-panel-title uk-text-primary">Child Device Mode</h3>
-                    Some explanation here
+                    Enter some subscription id and start capturing sounds near your child. Use same id in parent device to listen.
                 </div>
                 <div class="uk-form-row">
                     <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">

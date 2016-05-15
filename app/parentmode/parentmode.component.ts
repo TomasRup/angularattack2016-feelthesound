@@ -13,7 +13,7 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
             <form class="uk-form">
                 <div class="uk-form-row uk-text-bold">
                     <h3 class="uk-panel-title uk-text-primary">Parent Device</h3>
-                    Some explanation here
+                    Listen to your child by entering same subscription id as in child's device. 
                 </div>
                 <div class="uk-form-row">
                     <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
@@ -25,6 +25,18 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
                         <i *ngIf="!toggleInProgress && !listenService.getIsStarted()" class="uk-icon-play-circle-o"></i> 
                         &nbsp;{{subscribingButtonText}}
                     </button>
+                </div>
+                <div class="uk-form-row">
+                    <select [(ngModel)]="sensitivity">
+                        <option *ngFor="let o of sensitivityOptions" [value]="o">{{o*100}} %</option>
+                    </select>
+                    <label for="sensitivity">Detection sensitivity</label>
+                </div>
+                <div class="uk-form-row">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="mute">
+                        Disable sound output, only vibrate you phone if baby cry is detected.
+                    </label>
                 </div>
             </form>
         </div>
@@ -42,6 +54,9 @@ export class ParentMode {
     private entryDisabled: boolean = false;
     private subscribingButtonText: string = 'Start listening';
     private toggleInProgress: boolean = false;
+    private mute: boolean = false;
+    private sensitivity = 0.75;
+    private sensitivityOptions = [0.00, 0.10, 0.25, 0.50, 0.75, 0.85, 0.95, 0.98, 1.0];
 
     constructor(
         private listenService: ListenService,
@@ -66,9 +81,12 @@ export class ParentMode {
                 self.toggleInProgress = false;
                 self.setViewState();
             }, data => {
-                self.mobileService.playSound(data);
+                
+                if (!self.mute) {
+                    self.mobileService.playSound(data);
+                }
 
-                if (self.voiceRecognitionService.isBabyCrying(data)) { // TODO: make it work
+                if (self.voiceRecognitionService.isBabyCrying(data, self.sensitivity)) {
                     self.mobileService.vibratePhone([100]);
                 }
             });

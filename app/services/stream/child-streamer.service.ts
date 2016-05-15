@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
 import { GlobalsService } from '../common/globals.service';
+import { ApiService } from '../common/api.service';
+import { Observable }     from 'rxjs/Observable';
+import { Http, Response } from '@angular/http';
+
+export class StreamerState {
+    subscriberId: string;
+    listenerCount: number;
+    subscriberSessionId: string;
+}
 
 @Injectable()
 export class ChildStreamService {
@@ -12,36 +21,49 @@ export class ChildStreamService {
     private isStarted: Boolean = false;
     private id: String
     private recorder: any;
+    private streamerState: Observable<StreamerState>;
 
-    constructor(private globalsService: GlobalsService) {
+    constructor(
+        private globalsService: GlobalsService,
+        private apiService: ApiService) {
+
+        this.streamerState = this.apiService.getEvents().map(this.toStreamerState);
         var n = <any> navigator;
         n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
     }
 
-    getIsStarted() {
-      return this.isStarted;
+    toStreamerState(json: any): StreamerState {
+        console.log('mapping service')
+        return json;
     }
 
-    start(id: String, callback: Function) {
-       if (!this.isStarted) {
-         this.isStarted = true;
+    getStreamerState(): Observable<StreamerState> {
+        return this.streamerState;
+    }
 
-         this.webSocket = new WebSocket(`${GlobalsService.WS_URL}/streams/${id}`);
-         this.webSocket.onerror = this.onWebsocketError;
-         this.webSocket.onopen = () => {
-            callback();
-            this.globalsService.getNavigator().getUserMedia({audio: true}, this.initRecorder(), this.errorCallback);
-         }
+    getIsStarted() {
+        return this.isStarted;
+    }
+
+    start(id: string, callback: Function) {
+        if (!this.isStarted) {
+
+            this.isStarted = true;
+            this.webSocket = new WebSocket(`${GlobalsService.WS_URL}/streams/${id}`);
+            this.webSocket.onerror = this.onWebsocketError;
+            this.webSocket.onopen = () => {
+                this.apiService.start(id);
+                this.globalsService.getNavigator().getUserMedia({audio: true}, this.initRecorder(), this.errorCallback);
+                callback();
+            }
       }
     }
 
     stop() {
-      if (this.isStarted) {
-        this.isStarted = false;
-        if (!this.currentStream) return;
-        this.currentStream.getTracks()[0].stop();
-        this.webSocket.close()
-      }
+      this.currentStream && this.currentStream.getTracks()[0].stop();
+      this.webSocket && this.webSocket.close()
+      this.apiService.stop();
+      this.isStarted = false;
     }
 
     private initRecorder() {
@@ -66,18 +88,29 @@ export class ChildStreamService {
             if (instance.isStarted) {
               var left = e.inputBuffer.getChannelData(0);
               var data = left;
-              console.log('sending', data);
+              //console.log('sending', data);
               instance.webSocket.send(data);
-              console.log('done');
+              //console.log('done');
           }
         }
     }
 
     private errorCallback(error) {
+        this.stop();
         console.log(error);
+        throw new Error(error);
     }
 
     private onWebsocketError(error) {
+        this.stop();
         console.log(error);
+        throw new Error(error);
+    }
+
+    private handleHttpError (error: any) {
+        this.stop();
+        let errMsg = error.message || 'Server error';
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
 }

@@ -1,5 +1,8 @@
 package feelthesound.api;
 
+import feelthesound.api.endpoint.ws.ApiWebSocket;
+import feelthesound.api.endpoint.ws.ListenerWebSocket;
+import feelthesound.api.endpoint.ws.StreamerWebSocket;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,23 +15,28 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
 @EnableWebSocket
-public class ContextConfiguration extends SpringBootServletInitializer
-        implements WebSocketConfigurer {
+public class ContextConfiguration extends SpringBootServletInitializer implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(streamHandler(), "/streams/{subscriberId}").setAllowedOrigins("*");
         registry.addHandler(listenerHandler(), "/listeners/{subscriberId}").setAllowedOrigins("*");
+        registry.addHandler(apiHandler(), "/api/{subscriberId}").setAllowedOrigins("*");
     }
 
     @Bean
-    public StreamHandler streamHandler() {
-        return new StreamHandler();
+    public StreamerWebSocket streamHandler() {
+        return new StreamerWebSocket();
     }
 
     @Bean
-    public ListenerHandler listenerHandler() {
-        return new ListenerHandler();
+    public ListenerWebSocket listenerHandler() {
+        return new ListenerWebSocket();
+    }
+
+    @Bean
+    public ApiWebSocket apiHandler() {
+        return new ApiWebSocket();
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package feelthesound.api;
+package feelthesound.api.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ import static java.util.stream.Stream.of;
 @Component
 public class ListenerRegistry {
 
-    public final Map<String, WebSocketSession> streamers = new ConcurrentHashMap<>();
-    public final Map<String, List<WebSocketSession>> listenerRegistry = new ConcurrentHashMap<>();
+    private final Map<String, WebSocketSession> streamers = new ConcurrentHashMap<>();
+    private final Map<String, List<WebSocketSession>> listeners = new ConcurrentHashMap<>();
 
 
     public Optional<WebSocketSession> getStreamer(String subscriberId) {
@@ -50,7 +50,7 @@ public class ListenerRegistry {
     public void registerListener(WebSocketSession session) {
         String subscriberId = ListenerRegistry.getSubscriberId(session);
         if (session.isOpen()) {
-            listenerRegistry.compute(subscriberId, (key, oldValue) -> {
+            listeners.compute(subscriberId, (key, oldValue) -> {
                 if (oldValue == null) {
                     return listOf(session);
                 } else {
@@ -61,14 +61,14 @@ public class ListenerRegistry {
     }
 
     public void removeClosed() {
-        listenerRegistry.keySet().forEach(subscriberId -> {
-            listenerRegistry.computeIfPresent(subscriberId, (key, oldValue) ->
+        listeners.keySet().forEach(subscriberId -> {
+            listeners.computeIfPresent(subscriberId, (key, oldValue) ->
                     oldValue.stream().filter(s -> s.isOpen()).collect(Collectors.toList()));
         });
     }
 
     public List<WebSocketSession> getListeners(String subscriberId) {
-        return listenerRegistry.getOrDefault(subscriberId, Collections.emptyList());
+        return listeners.getOrDefault(subscriberId, Collections.emptyList());
     }
 
     public void sendMessage(String subscriberId, WebSocketMessage<?> message) throws IOException {

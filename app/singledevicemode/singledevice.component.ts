@@ -9,23 +9,27 @@ import { MobileService } from '../services/mobile/mobile.service';
   providers: [VoiceService, VoiceRecognitionService, MobileService],
   directives: [ROUTER_DIRECTIVES],
   template: `
-    <div class="" data-uk-scrollspy="{cls:'uk-animation-fade'}">
-        <div class="header">Single device mode</div>
-        <div class="content">
-            <button [ngClass]="{unsubscribed: feelingToggledOn, subscribed: !feelingToggledOn}" (click)="toggleFeeling()">{{feelingButtonText}}</button>
+    <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
+        <div class="uk-width-large-1-1 uk-visible-large">
+            <div class="uk-text-large">Single device mode</div><br>
+            <div class="uk-text-small">Some explanation here</div><br>
+            <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button><br>
             <div>
                 <canvas id="canvas"></canvas>
             </div>
         </div>
-        <div class="footer"><a (click) ="shutdown()" [routerLink]="['/modeselection']">Back</a></div>
+    </div>
+    <div class="uk-grid">
+        <a class="uk-button-link" [routerLink]="['/modeselection']"><i class="uk-icon-arrow-left"></i> Back</a>
     </div>
     `
 })
 export class SingleDevice {
     
     canvas;
-    private feelingToggledOn: boolean = false;
+    private toggleInProgress: boolean = false;
     private feelingButtonText: string = 'Start feeling';    
+    
     constructor(
         private voiceService: VoiceService, 
         private voiceRecognitionService: VoiceRecognitionService,
@@ -33,31 +37,36 @@ export class SingleDevice {
     }
     
     toggleFeeling() {
-        if (this.feelingToggledOn) {
+        this.toggleInProgress = true;
+        
+        if (this.voiceService.isListening()) {
             this.feelingButtonText = 'Start feeling';
             this.shutdown();
         } else {
             this.feelingButtonText = 'Stop feeling';
             this.listen();
         }
-        this.feelingToggledOn = !this.feelingToggledOn;
    }
     
     private listen() {
         var self = this;
         if (!this.voiceService.isListening()) {
             this.canvas = document.getElementById("canvas");
+            self.toggleInProgress = false; // TODO: this should be called after callback
             this.voiceService.listen((data) => {
                 let crying = this.voiceRecognitionService.isBabyCrying(data);
                 self.visualiseVoice(data, 400, 200, crying);
+                
                 if (crying) {
                     this.mobileService.vibratePhone([100]);
-                }        
+                }
+                
             }, this.handleListenError, 200);
         }
     }
 
    private shutdown() {
+        this.toggleInProgress = false;
         if (this.voiceService.isListening()) {
             this.voiceService.shutdown();
         }

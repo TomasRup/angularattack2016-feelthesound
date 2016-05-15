@@ -7,14 +7,18 @@ import { ChildStreamService } from '../services/stream/child-streamer.service';
   providers: [ChildStreamService],
   directives: [ROUTER_DIRECTIVES],
   template: `
-    <div class="mode-container">
-        <div class="header">Child mode</div>
-        <div class="content">
-            <input [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
-            <button [ngClass]="{unsubscribed: service.getIsStarted(), subscribed: !service.getIsStarted()}"
-                    (click)="toggleStreaming()">{{streamingButtonText}}</button>
+    <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
+        <div class="uk-width-large-1-1 uk-visible-large">
+        <div class="uk-text-large">Child mode</div><br>
+            <div class="uk-text-small">Some explanation here</div><br>       
+            <form class="uk-form">
+                <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
+                <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{streamingButtonText}}</button>
+            </form>
         </div>
-        <div class="footer"><a [routerLink]="['/modeselectionmultipledevices']">Back</a></div>
+    </div>
+    <div class="uk-grid">
+        <a class="uk-button-link" [routerLink]="['/modeselection']"><i class="uk-icon-arrow-left"></i> Back</a>
     </div>
     `
 })

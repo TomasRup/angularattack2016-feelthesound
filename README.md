@@ -28,5 +28,5 @@ The backend simply transmits sound buffer to other devices as per request.
 #### 3rd party libraries used
 - JQuery (www.jquery.com)
 - AudioContext-MonkeyPatch (https://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js)
-- UIKit frontend framework (www.getuikit.com)s
+- UIKit frontend framework (www.getuikit.com)
 - Angular2 (www.angular.io)

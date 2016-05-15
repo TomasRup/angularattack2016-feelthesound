@@ -1,2 +1,4 @@
 !node_modules/systemjs/dist/system.js
 api-backend
+typings
+**/*.ts

@@ -19,6 +19,9 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
             </a>
         </div>
     </div>
+    <div class="uk-grid">
+        <a class="uk-button-link" [routerLink]="['/modeselection']">Back</a>
+    </div>
     `
 })
 export class ModeSelectionMultipleDevices {}

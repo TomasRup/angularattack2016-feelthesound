@@ -19,11 +19,9 @@ import { MobileService } from '../services/mobile/mobile.service';
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
             <form class="uk-form">
-                <div class="uk-form-row uk-text-large">
-                    Child mode
-                </div>
-                <div class="uk-form-row uk-text-small">
-                    Monitor the sound near you and feel if your baby is crying through phone vibrations.
+                <div class="uk-form-row">
+                    <h3 class="uk-panel-title uk-text-primary">Use with a single device</h3>
+                    Upon clicking 'Start listening' the device will start indicating sound around you. If your child starts crying - the device will vibrate. You may first try adjusting sensitivity - the bigger sensitivity is - the more sensitively it will vibrate.
                 </div>
                 <div class="uk-form-row">
                     <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()">

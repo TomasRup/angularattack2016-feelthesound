@@ -11,10 +11,8 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
             <form class="uk-form">
-                <div class="uk-form-row uk-text-large">
-                    Child mode
-                </div>
-                <div class="uk-form-row uk-text-small">
+                <div class="uk-form-row uk-text-bold">
+                    <h3 class="uk-panel-title uk-text-primary">Parent Device</h3>
                     Some explanation here
                 </div>
                 <div class="uk-form-row">

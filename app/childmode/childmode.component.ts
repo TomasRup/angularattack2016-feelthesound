@@ -8,11 +8,22 @@ import { ChildStreamService, StreamerState } from '../services/stream/child-stre
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
-            <div class="uk-text-large">Child mode</div><br>
-            <div class="uk-text-small">Some explanation here</div><br>
             <form class="uk-form">
-                <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
-                <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{streamingButtonText}}</button>
+                <div class="uk-form-row uk-text-large">
+                    Child mode
+                </div>
+                <div class="uk-form-row uk-text-small">
+                    Some explanation here
+                </div>
+                <div class="uk-form-row">
+                    <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
+                </div>
+                <div class="uk-form-row">
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{streamingButtonText}}</button>
+                </div>
+                <div class="uk-form-row">
+                
+                </div>
             </form>
             <div *ngIf="service.getIsStarted() && service.streamerState">
                 <div class="uk-width-medium-1-2 uk-width-large-1-3 uk-row-first">

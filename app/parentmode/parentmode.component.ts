@@ -10,11 +10,19 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
-            <div class="uk-text-large">Parent mode</div><br>
-            <div class="uk-text-small">Some explanation here</div><br>
             <form class="uk-form">
-                <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
-                <button class="uk-button" [ngClass]="{'uk-button-danger': listenService.getIsStarted()}" (click)="toggleSubscribing()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{subscribingButtonText}}</button>
+                <div class="uk-form-row uk-text-large">
+                    Child mode
+                </div>
+                <div class="uk-form-row uk-text-small">
+                    Some explanation here
+                </div>
+                <div class="uk-form-row">
+                    <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
+                </div>
+                <div class="uk-form-row">
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': listenService.getIsStarted()}" (click)="toggleSubscribing()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{subscribingButtonText}}</button>
+                </div>
             </form>
         </div>
     </div>

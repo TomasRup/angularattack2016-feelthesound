@@ -18,17 +18,28 @@ import { MobileService } from '../services/mobile/mobile.service';
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
-            <div class="uk-text-large">Single device mode</div><br>
-            <div class="uk-text-small">Some explanation here</div><br>
-            <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button>
-            <select [(ngModel)]="sensitivity">
-                <option *ngFor="let o of sensitivityOptions" [value]="o">{{o*100}} %</option>
-            </select>
-            <label for="sensitivity">Sensitivity</label>
-            <br>
-            <div>
-                <canvas id="canvas"></canvas>
-            </div>
+            <form class="uk-form">
+                <div class="uk-form-row uk-text-large">
+                    Child mode
+                </div>
+                <div class="uk-form-row uk-text-small">
+                    Some explanation here
+                </div>
+                <div class="uk-form-row">
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button>
+                </div>
+                <div class="uk-form-row">
+                    <select [(ngModel)]="sensitivity">
+                        <option *ngFor="let o of sensitivityOptions" [value]="o">{{o*100}} %</option>
+                    </select>
+                    <label for="sensitivity">Sensitivity</label>
+                </div>
+                <div class="uk-form-row">
+                    <div>
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div class="uk-grid uk-align-center">

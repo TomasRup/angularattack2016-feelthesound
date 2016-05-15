@@ -11,7 +11,7 @@ We have developed an app called Feel the Sound. It is a web application which ca
 
 The app can be used with either one or two devices. Single device mode is especially well suited for deaf people who have their children nearbly, whereas multiple device mode works as an improved baby monitor - it vibrates when the sound level is too high.
 
-![Application screenshot](readme/screenshot.jpg?raw=true "Application screenshot")
+![Application screenshot](readme/screenshot.png?raw=true "Application screenshot")
 
 
 

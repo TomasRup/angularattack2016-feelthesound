@@ -26,7 +26,12 @@ import { MobileService } from '../services/mobile/mobile.service';
                     Some explanation here
                 </div>
                 <div class="uk-form-row">
-                    <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button>
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()">
+                        <i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i>
+                        <i *ngIf="!toggleInProgress && voiceService.isListening()" class="uk-icon-stop-circle-o"></i> 
+                        <i *ngIf="!toggleInProgress && !voiceService.isListening()" class="uk-icon-play-circle-o"></i> 
+                        &nbsp;{{feelingButtonText}}
+                    </button>
                 </div>
                 <div class="uk-form-row">
                     <select [(ngModel)]="sensitivity">

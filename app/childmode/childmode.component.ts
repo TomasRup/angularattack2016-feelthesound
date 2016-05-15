@@ -19,7 +19,12 @@ import { ChildStreamService, StreamerState } from '../services/stream/child-stre
                     <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
                 </div>
                 <div class="uk-form-row">
-                    <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{streamingButtonText}}</button>
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()">
+                        <i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i>
+                        <i *ngIf="!toggleInProgress && service.getIsStarted()" class="uk-icon-stop-circle-o"></i> 
+                        <i *ngIf="!toggleInProgress && !service.getIsStarted()" class="uk-icon-play-circle-o"></i> 
+                        &nbsp;{{streamingButtonText}}
+                    </button>
                 </div>
                 <div class="uk-form-row">
                 

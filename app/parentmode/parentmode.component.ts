@@ -21,7 +21,12 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
                     <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
                 </div>
                 <div class="uk-form-row">
-                    <button class="uk-button" [ngClass]="{'uk-button-danger': listenService.getIsStarted()}" (click)="toggleSubscribing()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{subscribingButtonText}}</button>
+                    <button class="uk-button" [ngClass]="{'uk-button-danger': listenService.getIsStarted()}" (click)="toggleSubscribing()">
+                        <i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i>
+                        <i *ngIf="!toggleInProgress && listenService.getIsStarted()" class="uk-icon-stop-circle-o"></i> 
+                        <i *ngIf="!toggleInProgress && !listenService.getIsStarted()" class="uk-icon-play-circle-o"></i> 
+                        &nbsp;{{subscribingButtonText}}
+                    </button>
                 </div>
             </form>
         </div>

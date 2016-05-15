@@ -37,10 +37,10 @@ export class ChildStreamService {
 
     stop() {
       if (this.isStarted) {
+        this.isStarted = false;
         if (!this.currentStream) return;
         this.currentStream.getTracks()[0].stop();
         this.webSocket.close()
-        this.isStarted = false;
       }
     }
 

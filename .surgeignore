@@ -1,2 +1,2 @@
-!*/system.src.js
+!node_modules/systemjs/dist/system.js
 api-backend

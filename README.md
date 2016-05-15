@@ -9,7 +9,7 @@ We have developed an app called Feel the Sound. It is a web application which ca
 * Listen to sounds around it
 * Transmit the sound and vibrate if the sound level is too high
 
-The app can be used with either one or two devices. Single device mode is especially well suited for deaf people who have their children nearbly, whereas multiple device mode works as an improved baby monitor - it vibrates when the sound level is too high.
+The app can be used with either one or two devices. Single device mode is especially well suited for deaf people who have their children nearbly, whereas multiple device mode can be used in place of radio stations if baby is in other room,
 
 ![Application screenshot](readme/screenshot.png?raw=true "Application screenshot")
 
@@ -19,6 +19,8 @@ The app can be used with either one or two devices. Single device mode is especi
 The application consists of two parts:
 * Angular 2 based web app
 * Spring Boot based backend
+
+* Websockets are used to transmit sound via server to listening devices
 
 The backend simply transmits sound buffer to other devices as per request.
 
@@ -30,3 +32,4 @@ The backend simply transmits sound buffer to other devices as per request.
 - AudioContext-MonkeyPatch (https://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js)
 - UIKit frontend framework (www.getuikit.com)
 - Angular2 (www.angular.io)
+- Java + Spring Boot for backend server http://projects.spring.io/spring-boot

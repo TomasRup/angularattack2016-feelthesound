@@ -12,10 +12,10 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
         <div class="uk-width-large-1-1">
             <form class="uk-form">
                 <div class="uk-form-row uk-text-large">
-                    Child mode
+                    Parent mode
                 </div>
                 <div class="uk-form-row uk-text-small">
-                    Some explanation here
+                    Listen to your child by entering same subscription id as in child's device. 
                 </div>
                 <div class="uk-form-row">
                     <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
@@ -27,6 +27,12 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
                         <i *ngIf="!toggleInProgress && !listenService.getIsStarted()" class="uk-icon-play-circle-o"></i> 
                         &nbsp;{{subscribingButtonText}}
                     </button>
+                </div>
+                <div class="uk-form-row">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="mute">
+                        Disable sound output, only vibrate you phone if baby cry is detected.
+                    </label>
                 </div>
             </form>
         </div>
@@ -44,6 +50,7 @@ export class ParentMode {
     private entryDisabled: boolean = false;
     private subscribingButtonText: string = 'Start listening';
     private toggleInProgress: boolean = false;
+    private mute: boolean = false;
 
     constructor(
         private listenService: ListenService,
@@ -68,9 +75,12 @@ export class ParentMode {
                 self.toggleInProgress = false;
                 self.setViewState();
             }, data => {
-                self.mobileService.playSound(data);
+                
+                if (!self.mute) {
+                    self.mobileService.playSound(data);
+                }
 
-                if (self.voiceRecognitionService.isBabyCrying(data)) { // TODO: make it work
+                if (self.voiceRecognitionService.isBabyCrying(data)) {
                     self.mobileService.vibratePhone([100]);
                 }
             });

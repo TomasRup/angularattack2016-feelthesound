@@ -10,8 +10,8 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
   directives: [ROUTER_DIRECTIVES],
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
-        <div class="uk-width-large-1-1 uk-visible-large">
-        <div class="uk-text-large">Parent mode</div><br>
+        <div class="uk-width-large-1-1">
+            <div class="uk-text-large">Parent mode</div><br>
             <div class="uk-text-small">Some explanation here</div><br>       
             <form class="uk-form">
                 <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">

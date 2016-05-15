@@ -10,7 +10,7 @@ import { MobileService } from '../services/mobile/mobile.service';
   directives: [ROUTER_DIRECTIVES],
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
-        <div class="uk-width-large-1-1 uk-visible-large">
+        <div class="uk-width-large-1-1">
             <div class="uk-text-large">Single device mode</div><br>
             <div class="uk-text-small">Some explanation here</div><br>
             <button class="uk-button" [ngClass]="{'uk-button-danger': voiceService.isListening()}" (click)="toggleFeeling()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{feelingButtonText}}</button><br>

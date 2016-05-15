@@ -3,5 +3,8 @@ npm-debug.log
 app/**/*.js
 app/**/*.js.map
 typings
-
+.idea
+*.iml
+target
+.mvn
 .idea

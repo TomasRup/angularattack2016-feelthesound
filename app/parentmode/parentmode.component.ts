@@ -11,9 +11,9 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="uk-width-large-1-1">
             <form class="uk-form">
-                <div class="uk-form-row uk-text-bold">
+                <div class="uk-form-row">
                     <h3 class="uk-panel-title uk-text-primary">Parent Device</h3>
-                    Listen to your child by entering same subscription id as in child's device. 
+                    Listen to your child by entering the same subscription ID as you typed in child's device.
                 </div>
                 <div class="uk-form-row">
                     <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">

@@ -14,8 +14,8 @@ export class GlobalsService {
 
     constructor() {
         var n = <any> navigator;
-        n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
         this.navigator = n;
+        this.navigator.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
         this.audioContext = new AudioContext();
     }
 

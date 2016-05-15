@@ -4,3 +4,6 @@ app/**/*.js
 app/**/*.js.map
 typings
 .idea
+*.iml
+target
+.mvn

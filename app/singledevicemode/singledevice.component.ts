@@ -31,7 +31,7 @@ import { MobileService } from '../services/mobile/mobile.service';
             </div>
         </div>
     </div>
-    <div class="uk-grid">
+    <div class="uk-grid uk-align-center">
         <a class="uk-button-link" [routerLink]="['/modeselection']"><i class="uk-icon-arrow-left"></i> Back</a>
     </div>
     `

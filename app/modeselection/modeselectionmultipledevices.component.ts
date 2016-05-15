@@ -19,7 +19,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
             </a>
         </div>
     </div>
-    <div class="uk-grid">
+    <div class="uk-grid uk-align-center">
         <a class="uk-button-link" [routerLink]="['/modeselection']"><i class="uk-icon-arrow-left"></i> Back</a>
     </div>
     `

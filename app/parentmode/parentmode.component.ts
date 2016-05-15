@@ -18,7 +18,7 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
             </form>
         </div>
     </div>
-    <div class="uk-grid">
+    <div class="uk-grid uk-align-center">
         <a class="uk-button-link" [routerLink]="['/modeselectionmultipledevices']"><i class="uk-icon-arrow-left"></i> Back</a>
     </div>
     `

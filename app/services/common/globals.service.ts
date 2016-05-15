@@ -15,8 +15,8 @@ export class GlobalsService {
     constructor() {
         var n = <any> navigator;
         n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
-        this.audioContext = new AudioContext();
         this.navigator = n;
+        this.audioContext = new AudioContext();
     }
 
     getAudioContext() {

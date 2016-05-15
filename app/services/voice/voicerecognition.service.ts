@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class VoiceRecognitionService {
     
-    isBabyCrying(buffer) { // TODO: implement more sophisticated cry detection
-        var chunksCount = 4;
-        var length = buffer.length / chunksCount;        
-        var cryingSum = 0;        
+    isBabyCrying(buffer) { // TODO: implement more sophisticated cry detection              
+        var sliceSize = 10;
+        var chunksCount = Math.floor(buffer.length / sliceSize);
+        var length = Math.floor(buffer.length / chunksCount);       
+        var cryingSum = 0;
         for(var chunk = 0; chunk < chunksCount; chunk++) {
             var sum = 0;
-            var max = -128;
-            var min = 128;
+            var max = -1;
+            var min = 1;
             
             for(var i = chunk * length; i < (chunk + 1) * length; i++) {
                 sum += buffer[i];
@@ -30,12 +31,12 @@ export class VoiceRecognitionService {
 
             var amplitude = (max - min);
             var deviation = Math.sqrt(sum / length);
-            var ratio = deviation / (amplitude + 1);
-            var crying = ratio > 0.1 && amplitude > 50;
+            var crying = deviation > 0.1 && amplitude > 0.2;
             
-            
+//            console.log("deviation:" + deviation + " amplitude:" + amplitude + " min:" + min + " max:" + max);
             
             cryingSum += crying ? 1 : -1;
+            
         }
         console.log(cryingSum);
         return cryingSum > 0;

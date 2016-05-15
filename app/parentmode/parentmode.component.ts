@@ -51,7 +51,7 @@ export class ParentMode {
                 
                 self.mobileService.playSound(event.data);
                 
-                if (self.voiceRecognitionService.isBabyCrying(event.data)) { // TODO: make it work
+                if (self.voiceRecognitionService.isBabyCrying(new Float32Array(event.data))) { // TODO: make it work
                     this.mobileService.vibratePhone([100]);
                 }   
             });

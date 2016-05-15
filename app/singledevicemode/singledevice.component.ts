@@ -77,8 +77,8 @@ export class SingleDevice {
       var x = 0;
 
       for(var i = 0; i < data.length; i++) {
-        var v = data[i] / 128;
-        var y = v * height / 2;
+        var v = data[i];
+        var y = height / 2 + v * height / 2;
         if(i === 0) {
           canvasCtx.moveTo(x, y);
         } else {

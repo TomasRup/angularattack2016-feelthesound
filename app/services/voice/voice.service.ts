@@ -71,11 +71,11 @@ export class VoiceService {
         this.mediaStreamSource.connect( analyser );
 
         var bufferLength = analyser.frequencyBinCount;
-        var buffer = new Uint8Array(bufferLength);
+        var buffer = new Float32Array(bufferLength);
         
         let timer = Observable.timer(0, period);
         this.timerSubscription = timer.subscribe(() => {
-            analyser.getByteTimeDomainData(buffer);
+            analyser.getFloatTimeDomainData(buffer);
             processor(buffer);
         });
     }

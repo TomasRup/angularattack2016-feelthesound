@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { ROUTER_DIRECTIVES, Routes } from '@angular/router';
 import { ChildStreamService, StreamerState } from '../services/stream/child-streamer.service';
 
 
 @Component({
-  providers: [ChildStreamService],
   directives: [ROUTER_DIRECTIVES],
   template: `
     <div class="uk-grid" data-uk-scrollspy="{cls:'uk-animation-fade'}">
@@ -15,10 +14,10 @@ import { ChildStreamService, StreamerState } from '../services/stream/child-stre
                 <input class="uk-form-width-medium" [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Enter Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
                 <button class="uk-button" [ngClass]="{'uk-button-danger': service.getIsStarted()}" (click)="toggleStreaming()"><i *ngIf="toggleInProgress" class="uk-icon-spinner uk-icon-spin"></i> {{streamingButtonText}}</button>
             </form>
-            <div *ngIf="service.getIsStarted() && streamerState">
+            <div *ngIf="service.getIsStarted() && service.streamerState">
                 <div class="uk-width-medium-1-2 uk-width-large-1-3 uk-row-first">
                     <div class="uk-panel uk-panel-box uk-text-left">
-                    Currently devices in parent mode: <code>{{streamerState.listenerCount}}</code>
+                    Connected devices in parent mode: <code>{{service.streamerState.listenerCount}}</code>
                     </div>
                 </div>
             <div>
@@ -30,36 +29,48 @@ import { ChildStreamService, StreamerState } from '../services/stream/child-stre
     </div>
     `
 })
+@Routes([
+  {path: '/child', component: ChildMode},
+])
 export class ChildMode {
-    private subscriptionId: string = '';
-    private entryDisabled: boolean = false;
-    private streamingButtonText: string = 'Start capturing sounds';
-    private toggleInProgress: boolean = false;
-    private streamerState: StreamerState;
+    private subscriptionId: string;
+    private entryDisabled: boolean;
+    private streamingButtonText: string;
+    private toggleInProgress: boolean;
 
     constructor(private service: ChildStreamService) {
         // TODO: Auto toggle based on url
-        service.getStreamerState().subscribe(state => this.streamerState = state);
+        this.subscriptionId = service.subscriptionId;
+        this.setViewState();
     }
 
     toggleStreaming() {
         this.toggleInProgress = true;
-        this.streamingButtonText = 'Loading';
-        this.entryDisabled = true;
+        this.setViewState();
 
         if (this.service.getIsStarted()) {
             this.service.stop();
             this.toggleInProgress = false;
-            this.streamingButtonText = 'Start capturing sounds';
-            this.entryDisabled = false;
-
+            this.setViewState();
         } else {
             var self = this;
             this.service.start(this.subscriptionId, () => {
                 self.toggleInProgress = false;
-                self.streamingButtonText = 'Stop capturing sounds'
-                self.entryDisabled = true;
+                this.setViewState();
             });
+        }
+    }
+
+    setViewState() {
+        if (this.toggleInProgress) {
+            this.streamingButtonText = 'Loading';
+            this.entryDisabled = true;
+        } else if (this.service.getIsStarted()) {
+            this.streamingButtonText = 'Stop capturing sounds'
+            this.entryDisabled = true;
+        } else {
+            this.streamingButtonText = 'Start capturing sounds';
+            this.entryDisabled = false;
         }
     }
 }

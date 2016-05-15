@@ -18,37 +18,33 @@ export class ChildStreamService {
     private webSocket: WebSocket = undefined;
     private currentStream = undefined;
     private ended: Boolean = false;
-    private isStarted: Boolean = false;
+    public subscriptionId: string;
+    public streamerState: StreamerState;
     private id: String
     private recorder: any;
-    private streamerState: Observable<StreamerState>;
+
 
     constructor(
         private globalsService: GlobalsService,
         private apiService: ApiService) {
 
-        this.streamerState = this.apiService.getEvents().map(this.toStreamerState);
+        this.apiService.getEvents().map(event => this.streamerState = event).subscribe();
         var n = <any> navigator;
         n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
     }
 
     toStreamerState(json: any): StreamerState {
-        console.log('mapping service')
         return json;
     }
 
-    getStreamerState(): Observable<StreamerState> {
-        return this.streamerState;
-    }
-
-    getIsStarted() {
-        return this.isStarted;
+    getIsStarted(): boolean {
+        return !!this.subscriptionId;
     }
 
     start(id: string, callback: Function) {
-        if (!this.isStarted) {
-
-            this.isStarted = true;
+        if (!this.getIsStarted()) {
+            this.streamerState = undefined;
+            this.subscriptionId = id;
             this.webSocket = new WebSocket(`${GlobalsService.WS_URL}/streams/${id}`);
             this.webSocket.onerror = this.onWebsocketError;
             this.webSocket.onopen = () => {
@@ -63,16 +59,13 @@ export class ChildStreamService {
       this.currentStream && this.currentStream.getTracks()[0].stop();
       this.webSocket && this.webSocket.close()
       this.apiService.stop();
-      this.isStarted = false;
+      this.subscriptionId = undefined;
     }
 
     private initRecorder() {
         let instance = this;
         return (stream) => {
             instance.currentStream = stream;
-            instance.currentStream.addEventListener('ended', function() {
-                instance.isStarted = false;
-            });
 
             var audioInput = instance.globalsService.getAudioContext().createMediaStreamSource(stream);
             instance.recorder = instance.globalsService.getAudioContext().createScriptProcessor(ChildStreamService.BUFFER_SIZE, 1, 1);
@@ -85,7 +78,7 @@ export class ChildStreamService {
     private recorderProcess() {
         let instance = this;
         return (e) => {
-            if (instance.isStarted) {
+            if (instance.getIsStarted()) {
               var left = e.inputBuffer.getChannelData(0);
               var data = left;
               //console.log('sending', data);

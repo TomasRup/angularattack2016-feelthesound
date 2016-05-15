@@ -15,7 +15,7 @@ import { VoiceRecognitionService } from '../services/voice/voicerecognition.serv
             <input [ngClass]="{disabled: entryDisabled}" type="text" placeholder="Subscription ID" [disabled]="entryDisabled" [(ngModel)]="subscriptionId">
             <button [ngClass]="{unsubscribed: listenService.getIsStarted(), subscribed: !listenService.getIsStarted()}" (click)="toggleSubscribing()">{{subscribingButtonText}}</button>
         </div>
-        <div class="footer"><a [routerLink]="['/modeselection']">Back</a></div>
+        <div class="footer"><a [routerLink]="['/modeselectionmultipledevices']">Back</a></div>
     </div>
     `
 })

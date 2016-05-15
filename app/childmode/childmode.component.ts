@@ -14,7 +14,7 @@ import { ChildStreamService } from '../services/stream/child-streamer.service';
             <button [ngClass]="{unsubscribed: service.getIsStarted(), subscribed: !service.getIsStarted()}"
                     (click)="toggleStreaming()">{{streamingButtonText}}</button>
         </div>
-        <div class="footer"><a [routerLink]="['/modeselection']">Back</a></div>
+        <div class="footer"><a [routerLink]="['/modeselectionmultipledevices']">Back</a></div>
     </div>
     `
 })

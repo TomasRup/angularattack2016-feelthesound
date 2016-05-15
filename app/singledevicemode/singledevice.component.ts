@@ -9,7 +9,7 @@ import { MobileService } from '../services/mobile/mobile.service';
   providers: [VoiceService, VoiceRecognitionService, MobileService],
   directives: [ROUTER_DIRECTIVES],
   template: `
-    <div class="mode-container">
+    <div class="" data-uk-scrollspy="{cls:'uk-animation-fade'}">
         <div class="header">Single device mode</div>
         <div class="content">
             <button [ngClass]="{unsubscribed: feelingToggledOn, subscribed: !feelingToggledOn}" (click)="toggleFeeling()">{{feelingButtonText}}</button>
